@@ -74,6 +74,11 @@
             background: #fff;
             font-size: 16px;
         }
+
+        /* level select styles */
+        .level-row { display:flex; align-items:center; gap:10px; }
+        .level-row label { font-weight:600; color:#333; }
+        select { padding:8px; border-radius:6px; border:1px solid #ccc; }
     </style>
 </head>
 <body>
@@ -82,16 +87,29 @@
 
     <!-- Form fetch URL -->
     <form id="previewForm" action="<%=context%>/ssrf/preview" method="get" target="resultFrame" class="form">
-        <input id="url" name="url" placeholder="Nhập URL (ví dụ: http://127.0.0.1:8080/ssrf-lab/admin)" />
+        <input id="url" name="url" placeholder="Nhập URL (ví dụ: http://127.0.0.1:8000/Secret.txt hoặc file:///C:/ssrf-lab/Secret.txt)" />
+
+        <!-- MỚI: chọn level -->
+        <div class="level-row">
+            <label for="level">Chọn level:</label>
+            <select name="level" id="level">
+                <option value="1">Level 1 — No Filter (default)</option>
+                <option value="2">Level 2 — Block schemes + naive 127.0.0.1</option>
+                <option value="3">Level 3 — Host exact block</option>
+                <option value="4">Level 4 — Resolve & block internal IPs</option>
+                <option value="5">Level 5 — Allowlist only</option>
+            </select>
+        </div>
+
         <div class="buttons">
             <button class="btn primary" type="submit">Fetch</button>
             <button type="button" class="btn"
-                    onclick="document.getElementById('url').value='http://127.0.0.1:8080/ssrf-lab/admin'">
-                Example: admin
+                    onclick="document.getElementById('url').value='http://127.0.0.1:8000/Secret.txt'">
+                Example: local HTTP
             </button>
             <button type="button" class="btn"
-                    onclick="document.getElementById('url').value='file:///etc/passwd'">
-                Example: /etc/passwd
+                    onclick="document.getElementById('url').value='file:///C:/ssrf-lab/Secret.txt'">
+                Example: local FILE
             </button>
         </div>
     </form>
